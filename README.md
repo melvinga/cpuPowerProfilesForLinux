@@ -19,6 +19,7 @@ Mac OS: No
     chmod +x govFullHzRange.sh
 5) Execute script
     ./govFullHzRange.sh
+   If this is the first time you are running the script, it will automatically install required packages and may take a minute. Subsequent runs of the script will have no delays.
 
 Note: To stop script, press Ctrl+C on your keyboard.
 
