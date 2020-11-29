@@ -11,6 +11,8 @@
 # Tested with:
 #   Intel i5 8265U (Dated: 29 Nov 2020)
 #
+# License: GNU GPL v3.0
+#
 # GitHub repo: https://github.com/melvinga/cpuPowerProfilesForLinux
 #
 # Date created: 29 Nov 2020
