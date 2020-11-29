@@ -6,7 +6,9 @@ Tested to be working fine with Intel i5 8265U (Dated: 29 Nov 2020)
 
 # Compatibility:
 Ubuntu and other Linux: yes
+
 Windows: No
+
 Mac OS: No
 
 # How to run script in Linux:
