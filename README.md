@@ -26,13 +26,14 @@ Note: To stop script, press Ctrl+C on your keyboard.
 # How to autorun script at system startup in Linux:
 1) Download cpuFullHzRangeAutoRun.sh
 2) Copy this script into /etc/init.d folder and make it executable.
-   Example case: This file is downloaded into Downloads folder
-     a) Open terminal (Click Ctrl+Alt+T on your keyboard)
-     b) Execute below command to navigate to Downloads folder
-         cd ~/Downloads
-     c) Command to copy to /etc/init.d/ folder
-         sudo cp cpuFullHzRangeAutoRun.sh /etc/init.d/
-     d) Command to make the script get executed at system bootup
-         sudo chmod +x /etc/init.d/cpuFullHzRangeAutoRun.sh
-   
-   Next time you bootup your PC/Laptop, the script will automatically run.
+
+Example case: This file is downloaded into Downloads folder
+a) Open terminal (Click Ctrl+Alt+T on your keyboard)
+b) Execute below command to navigate to Downloads folder
+    cd ~/Downloads
+c) Command to copy to /etc/init.d/ folder
+    sudo cp cpuFullHzRangeAutoRun.sh /etc/init.d/
+d) Command to make the script get executed at system bootup
+    sudo chmod +x /etc/init.d/cpuFullHzRangeAutoRun.sh
+    
+Next time you bootup your PC/Laptop, the script will automatically run.
