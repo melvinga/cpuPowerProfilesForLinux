@@ -28,19 +28,17 @@ Note: To stop script, press Ctrl+C on your keyboard.
 2) Copy this script into /etc/init.d folder and make it executable.
 
 Example case: This file is downloaded into Downloads folder
+1) Open terminal (Click Ctrl+Alt+T on your keyboard)
+2) Execute below command to navigate to Downloads folder
 
-a) Open terminal (Click Ctrl+Alt+T on your keyboard)
+    cd ~/Downloads
 
-b) Execute below command to navigate to Downloads folder
+3) Command to copy to /etc/init.d/ folder
 
-cd ~/Downloads
+    sudo cp cpuFullHzRangeAutoRun.sh /etc/init.d/
 
-c) Command to copy to /etc/init.d/ folder
+4) Command to make the script get executed at system bootup
 
-sudo cp cpuFullHzRangeAutoRun.sh /etc/init.d/
-
-d) Command to make the script get executed at system bootup
-
-sudo chmod +x /etc/init.d/cpuFullHzRangeAutoRun.sh
+    sudo chmod +x /etc/init.d/cpuFullHzRangeAutoRun.sh
     
 Next time you bootup your PC/Laptop, the script will automatically run.
