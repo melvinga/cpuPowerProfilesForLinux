@@ -54,8 +54,29 @@
 #             sudo cp cpuFullHzRangeAutoRun.sh /etc/init.d/
 #         d) Command to make the script get executed at system bootup
 #             sudo chmod +x /etc/init.d/cpuFullHzRangeAutoRun.sh
-#         e) Configure the script to run at startup:
+#         e) (optional) Configure the script to run at startup:
 #             sudo update-rc.d cpuFullHzRangeAutoRun.sh defaults
+#
+#   (2) For Ubuntu 22.04 (using systemd):
+#       Copy this script into /etc/init.d folder and make it executable.
+#       Example case: This file is downloaded into Downloads folder
+#         a) Open terminal (Click Ctrl+Alt+T on your keyboard)
+#         b) Execute below command to navigate to Downloads folder
+#             cd ~/Downloads
+#         c) Command to copy to /etc/init.d/ folder
+#             sudo cp cpuFullHzRangeAutoRun.sh /etc/init.d/
+#         d) Command to make the script get executed at system bootup
+#             sudo chmod +x /etc/init.d/cpuFullHzRangeAutoRun.sh
+#         e) Copy the service file to sytemd folder:
+#             (Reference: https://www.squash.io/executing-bash-script-at-startup-in-ubuntu-linux/)
+#
+#             sudo cp cpuFullHzRangeAutoRun.service /etc/systemd/system/
+#         f) Execute:
+#             sudo systemctl daemon-reload
+#         g) Setup the service for automatically running at startup/bootup:
+#             sudo systemctl enable cpuFullHzRangeAutoRun.service 
+#         h) Start the service for now (without reboot):
+#             sudo systemctl start cpuFullHzRangeAutoRun.service 
 #
 #  Next time you bootup your PC/Laptop, the script will automatically run.
 #
