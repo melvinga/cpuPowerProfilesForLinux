@@ -78,7 +78,7 @@ Example case: This file is downloaded into Downloads folder
 
     sudo systemctl enable cpuFullHzRangeAutoRun.service 
 
-8) Start the service for now (without reboot):
+8) Start the service for now (before any reboot):
 
     sudo systemctl start cpuFullHzRangeAutoRun.service 
     
