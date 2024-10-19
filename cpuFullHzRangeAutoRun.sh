@@ -81,27 +81,27 @@
 
 # # TESTED FOR i5-8265U (Base Frequency of CPU is 1.6 GHz)
 # GOVERNOR_VALUE=powersave
-# MAX_FREQ_MULTIPLIER=16  # 100 = 10 GHz for 1st core (or 4.5 GHz if that's the max possible).
-# TYP_FREQ_MULTIPLIER=8  # 8 = 0.8 GHz for 2nd core; Typical value.
+# PERFORMANCE_CORE_FREQ_MULTIPLIER_MAX=8  # 100 = 10 GHz for 1st core (or 4.5 GHz if that's the max possible).
+# EFFICIENCY_CORE_FREQ_MULTIPLIER_MAX=8  # 8 = 0.8 GHz for 2nd core; Typical value.
 # MIN_FREQ_MULTIPLIER=1  # 1 = 0.1 GHz for subsequent cores (or 0.4 GHz if that's the lowest possible).
 # # GOVERNOR_VALUE=performance
-# # MAX_FREQ_MULTIPLIER=32  # 100 = 10 GHz for 1st core (or 4.5 GHz if that's the max possible).
-# # TYP_FREQ_MULTIPLIER=16  # 8 = 0.8 GHz for 2nd core; Typical value.
+# # PERFORMANCE_CORE_FREQ_MULTIPLIER_MAX=16  # 100 = 10 GHz for 1st core (or 4.5 GHz if that's the max possible).
+# # EFFICIENCY_CORE_FREQ_MULTIPLIER_MAX=16  # 8 = 0.8 GHz for 2nd core; Typical value.
 # # MIN_FREQ_MULTIPLIER=1  # 1 = 0.1 GHz for subsequent cores (or 0.4 GHz if that's the lowest possible).
 
 # TESTED FOR i3-1315U (Base Frequency of CPU is 1.2 GHz)
 GOVERNOR_VALUE=powersave
-MAX_FREQ_MULTIPLIER=12  # 100 = 10 GHz for 1st core (or 4.5 GHz if that's the max possible).
-TYP_FREQ_MULTIPLIER=6  # 8 = 0.8 GHz for 2nd core; Typical value.
+PERFORMANCE_CORE_FREQ_MULTIPLIER_MAX=9  # 100 = 10 GHz for 1st core (or 4.5 GHz if that's the max possible).
+EFFICIENCY_CORE_FREQ_MULTIPLIER_MAX=12  # 8 = 0.8 GHz for 2nd core; Typical value.
 MIN_FREQ_MULTIPLIER=1  # 1 = 0.1 GHz for subsequent cores (or 0.4 GHz if that's the lowest possible).
 # GOVERNOR_VALUE=performance
-# MAX_FREQ_MULTIPLIER=24  # 100 = 10 GHz for 1st core (or 4.5 GHz if that's the max possible).
-# TYP_FREQ_MULTIPLIER=12  # 8 = 0.8 GHz for 2nd core; Typical value.
+# PERFORMANCE_CORE_FREQ_MULTIPLIER_MAX=24  # 100 = 10 GHz for 1st core (or 4.5 GHz if that's the max possible).
+# EFFICIENCY_CORE_FREQ_MULTIPLIER_MAX=9  # 8 = 0.8 GHz for 2nd core; Typical value.
 # MIN_FREQ_MULTIPLIER=1  # 1 = 0.1 GHz for subsequent cores (or 0.4 GHz if that's the lowest possible).
 
-MAX_FREQ_VALUE=$(( $MAX_FREQ_MULTIPLIER * 100000 ))  # 100 * 100 MHz = 10 GHz
-TYP_FREQ_VALUE=$(( $TYP_FREQ_MULTIPLIER * 100000 ))  #   6 * 100 MHz = 0.6 GHz
-MIN_FREQ_VALUE=$(( $MIN_FREQ_MULTIPLIER * 100000 ))  #   1 * 100 MHz = 0.1 GHz
+PERFORMANCE_CORE_FREQ_MAX=$(( $PERFORMANCE_CORE_FREQ_MULTIPLIER_MAX * 100000 ))  # 100 * 100 MHz = 10 GHz
+EFFICIENCY_CORE_FREQ_MAX=$(( $EFFICIENCY_CORE_FREQ_MULTIPLIER_MAX * 100000 ))  #   6 * 100 MHz = 0.6 GHz
+MIN_FREQ=$(( $MIN_FREQ_MULTIPLIER * 100000 ))  #   1 * 100 MHz = 0.1 GHz
 
 FILE=/usr/bin/cpufreq-set
 if ! [ -f "$FILE" ]; then
@@ -111,7 +111,9 @@ fi
 if [ -f "$FILE" ]; then
   for ((i=0;i<$(nproc);++i)); do sudo cpufreq-set -c $i -r -g $GOVERNOR_VALUE; done
 
-  for ((i=0;i<2;++i)); do sudo cpufreq-set -c $i --min $MIN_FREQ_VALUE --max $MAX_FREQ_VALUE; done
-  for ((i=2;i<4;++i)); do sudo cpufreq-set -c $i --min $MIN_FREQ_VALUE --max $TYP_FREQ_VALUE; done
-  for ((i=4;i<$(nproc);++i)); do sudo cpufreq-set -c $i --min $MIN_FREQ_VALUE --max $MIN_FREQ_VALUE; done
+  # Performance cores in Intel
+  for ((i=0;i<2;++i)); do sudo cpufreq-set -c $i --min $MIN_FREQ --max $PERFORMANCE_CORE_FREQ_MAX; done
+
+  # Efficiency cores in Intel
+  for ((i=2;i<$(nproc);++i)); do sudo cpufreq-set -c $i --min $MIN_FREQ --max $EFFICIENCY_CORE_FREQ_MAX; done
 fi
