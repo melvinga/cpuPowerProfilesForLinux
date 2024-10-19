@@ -59,7 +59,7 @@
 # GitHub repo: https://github.com/melvinga/cpuPowerProfilesForLinux
 #
 # Date created: 29 Nov 2020
-# Last updated: 19 Oct 2024
+# Last updated: 20 Oct 2024
 #
 ###############################################################################
 

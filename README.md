@@ -23,7 +23,7 @@ Mac OS: No
 
 Note: To stop script, press Ctrl+C on your keyboard.
 
-# How to autorun script at system startup in Linux:
+# How to autorun script at system startup in Linux (Ubuntu 18.04 and Ubuntu 20.04):
 1) Download cpuFullHzRangeAutoRun.sh
 2) Copy this script into /etc/init.d folder and make it executable.
 
@@ -40,5 +40,46 @@ Example case: This file is downloaded into Downloads folder
 4) Command to make the script get executed at system bootup
 
     sudo chmod +x /etc/init.d/cpuFullHzRangeAutoRun.sh
+
+5) (Optional step) Configure the script to run at startup:
+
+    sudo update-rc.d cpuFullHzRangeAutoRun.sh defaults
+    
+Next time you bootup your PC/Laptop, the script will automatically run.
+
+# How to autorun script at system startup in Linux (Ubuntu 22.04):
+1) Download cpuFullHzRangeAutoRun.sh
+2) Copy this script into /etc/init.d folder and make it executable.
+
+Example case: This file is downloaded into Downloads folder
+1) Open terminal (Click Ctrl+Alt+T on your keyboard)
+2) Execute below command to navigate to Downloads folder
+
+    cd ~/Downloads
+
+3) Command to copy to /etc/init.d/ folder
+
+    sudo cp cpuFullHzRangeAutoRun.sh /etc/init.d/
+
+4) Command to make the script get executed at system bootup
+
+    sudo chmod +x /etc/init.d/cpuFullHzRangeAutoRun.sh
+
+5) Copy the service file to sytemd folder:
+    (Reference: https://www.squash.io/executing-bash-script-at-startup-in-ubuntu-linux/)
+
+    sudo cp cpuFullHzRangeAutoRun.service /etc/systemd/system/
+
+6) Reload the systemd daemon to load the new service unit file:
+
+    sudo systemctl daemon-reload
+
+7) Setup the service for automatically running at startup/bootup:
+
+    sudo systemctl enable cpuFullHzRangeAutoRun.service 
+
+8) Start the service for now (without reboot):
+
+    sudo systemctl start cpuFullHzRangeAutoRun.service 
     
 Next time you bootup your PC/Laptop, the script will automatically run.

@@ -71,11 +71,11 @@
 #             (Reference: https://www.squash.io/executing-bash-script-at-startup-in-ubuntu-linux/)
 #
 #             sudo cp cpuFullHzRangeAutoRun.service /etc/systemd/system/
-#         f) Execute:
+#         f) Reload the systemd daemon to load the new service unit file:
 #             sudo systemctl daemon-reload
 #         g) Setup the service for automatically running at startup/bootup:
 #             sudo systemctl enable cpuFullHzRangeAutoRun.service 
-#         h) Start the service for now (without reboot):
+#         h) Start the service for now (before any reboot):
 #             sudo systemctl start cpuFullHzRangeAutoRun.service 
 #
 #  Next time you bootup your PC/Laptop, the script will automatically run.
@@ -96,7 +96,7 @@
 # GitHub repo: https://github.com/melvinga/cpuPowerProfilesForLinux
 #
 # Date created: 06 Dec 2020
-# Last updated: 19 Oct 2024
+# Last updated: 20 Oct 2024
 #
 ###############################################################################
 
