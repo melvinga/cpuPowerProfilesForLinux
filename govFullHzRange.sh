@@ -93,10 +93,10 @@ if [ -f "$FILE" ]; then
   echo ""
 
   # Performance cores in Intel
-  for ((i=0;i<2;++i)); do sudo cpufreq-set -c $i --min $MIN_FREQ --max $PERFORMANCE_CORE_FREQ_MAX; done
+  for ((i=0;i<4;++i)); do sudo cpufreq-set -c $i --min $MIN_FREQ --max $PERFORMANCE_CORE_FREQ_MAX; done
 
   # Efficiency cores in Intel
-  for ((i=2;i<$(nproc);++i)); do sudo cpufreq-set -c $i --min $MIN_FREQ --max $EFFICIENCY_CORE_FREQ_MAX; done
+  for ((i=4;i<$(nproc);++i)); do sudo cpufreq-set -c $i --min $MIN_FREQ --max $EFFICIENCY_CORE_FREQ_MAX; done
 
   echo "Min freq is set to:"
   cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_min_freq
