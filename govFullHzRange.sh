@@ -16,32 +16,25 @@
 #     (3) The PC will have to execute the active application's thread/threads
 #         and several lightweight OS-related threads.
 #     (4) Most PCs will be responsive in the year 2024 if it has quad-core
-#         processors. Any more cores is mostly not a necessity.
+#         processors running at their base frequency. Any more cores is
+#         mostly not a necessity.
 #     (5) An asymmetric CPU having 2 power-hungry performance cores (with
-#         hyperthreading (HT) disabled to increase responsiveness and reduce
-#         power consumption) and 4 efficiency cores (no HT present) would
-#         result in a very responsive PC even when the 4 efficiency cores are
-#         being utilized more often.
-#     (6) The minimum frequency of all cores will be the minimum possible
-#         frequency possible for the processor. This will ensure minimum
-#         power consumption while the user is reading, listening to music,
-#         tiny breaks during programming, etc.
+#         hyperthreading (HT) enabled to increase throughput) and 4 efficiency
+#         cores (no HT present) would result in a very responsive PC.
 #
 #   In powersave mode:
-#     The power-hungry performance cores (with HT disabled) will have maximum
-#     processor set to the base frequency of efficiency cores.
-#       - This would, in theory, make the power-hungry performance cores be
-#         as good as efficiency cores in terms of performance and power
-#         efficiency.
-#     The efficiency cores will have max frequency set to the base
-#     frequency of the power-hungry performance cores.
-#       - The OS will, in theory, give more of the tasks to the
-#         efficiency cores.
+#     Performance cores will have max frequency set to their base frequency.
+#     Efficiency cores will have max frequency set to their base frequency.
+#     Minimum frequency for all cores would be half the frequency of Performance core.
+#       - The system would be very responsive for everyday tasks with optimal
+#         battery runtime of 6+ hours for a fully-charged ~50 watt-hour battery.
 #
 #   In performance mode:
-#     Max frequency of performance cores will be set to twice their base
-#     frequency.
-#     Max frequency of efficiency cores will be set to their base frequency.
+#     Performance cores will have max frequency set to thrice their base frequency.
+#     Efficiency cores will have max frequency set to twice their base frequency.
+#     Minimum frequency for all cores would be base frequency of Performance cores.
+#       - The system would be able to avoid CPU throttling for long-running
+#         compute-intensive tasks.
 #
 # Tested with:
 #   - Intel i5 8265U:
@@ -75,13 +68,13 @@
 
 # TESTED FOR i3-1315U (Base Frequency of CPU is 1.2 GHz)
 GOVERNOR_VALUE=powersave
-PERFORMANCE_CORE_FREQ_MULTIPLIER_MAX=9  # 100 = 10 GHz for 1st core (or 4.5 GHz if that's the max possible).
-EFFICIENCY_CORE_FREQ_MULTIPLIER_MAX=12  # 8 = 0.8 GHz for 2nd core; Typical value.
-MIN_FREQ_MULTIPLIER=1  # 1 = 0.1 GHz for subsequent cores (or 0.4 GHz if that's the lowest possible).
+PERFORMANCE_CORE_FREQ_MULTIPLIER_MAX=12  # 100 = 10 GHz for 1st core (or 4.5 GHz if that's the max possible).
+EFFICIENCY_CORE_FREQ_MULTIPLIER_MAX=9  # 8 = 0.8 GHz for 2nd core; Typical value.
+MIN_FREQ_MULTIPLIER=6  # 1 = 0.1 GHz for subsequent cores (or 0.4 GHz if that's the lowest possible).
 # GOVERNOR_VALUE=performance
-# PERFORMANCE_CORE_FREQ_MULTIPLIER_MAX=24  # 100 = 10 GHz for 1st core (or 4.5 GHz if that's the max possible).
-# EFFICIENCY_CORE_FREQ_MULTIPLIER_MAX=9  # 8 = 0.8 GHz for 2nd core; Typical value.
-# MIN_FREQ_MULTIPLIER=1  # 1 = 0.1 GHz for subsequent cores (or 0.4 GHz if that's the lowest possible).
+# PERFORMANCE_CORE_FREQ_MULTIPLIER_MAX=36  # 100 = 10 GHz for 1st core (or 4.5 GHz if that's the max possible).
+# EFFICIENCY_CORE_FREQ_MULTIPLIER_MAX=18  # 8 = 0.8 GHz for 2nd core; Typical value.
+# MIN_FREQ_MULTIPLIER=12  # 1 = 0.1 GHz for subsequent cores (or 0.4 GHz if that's the lowest possible).
 
 PERFORMANCE_CORE_FREQ_MAX=$(( $PERFORMANCE_CORE_FREQ_MULTIPLIER_MAX * 100000 ))  # 100 * 100 MHz = 10 GHz
 EFFICIENCY_CORE_FREQ_MAX=$(( $EFFICIENCY_CORE_FREQ_MULTIPLIER_MAX * 100000 ))  #   6 * 100 MHz = 0.6 GHz
