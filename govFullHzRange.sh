@@ -15,70 +15,53 @@
 #         one or more lightweight threads.
 #     (3) The PC will have to execute the active application's thread/threads
 #         and several lightweight OS-related threads.
-#     (4) Most PCs will be responsive in the year 2024 if it has quad-core
-#         processors running at their base frequency. Any more cores is
-#         mostly not a necessity.
-#     (5) An asymmetric CPU having 2 power-hungry performance cores (with
-#         hyperthreading (HT) enabled to increase throughput) and 4 efficiency
-#         cores (no HT present) would result in a very responsive PC.
+#     (4) A CPU of frequency X-MHz is very efficient in the frequency range
+#         0.5 * X to 1.5 * X.
+#           (i) For asymmetric cores (like in i3-1315u processor),
+#               the CPU frequency is base frequency of performance cores.
 #
 #   In powersave mode:
-#     Performance cores will have max frequency set to their base frequency.
-#     Efficiency cores will have max frequency set to their base frequency.
-#     Minimum frequency for all cores would be half the frequency of Performance core.
-#       - The system would be very responsive for everyday tasks with optimal
-#         battery runtime of 6+ hours for a fully-charged ~50 watt-hour battery.
+#     PGovernor is set to 'powersave'.
 #
 #   In performance mode:
-#     Performance cores will have max frequency set to thrice their base frequency.
-#     Efficiency cores will have max frequency set to twice their base frequency.
-#     Minimum frequency for all cores would be base frequency of Performance cores.
-#       - The system would be able to avoid CPU throttling for long-running
-#         compute-intensive tasks.
+#     PGovernor is set to 'performance'.
 #
 # Tested with:
 #   - Intel i5 8265U:
 #       (1) Ubuntu 18.04.4 LTS, (Dated: 29 Nov 2020)
-#           PERFORMANCE_CORE_FREQ_MULTIPLIER_MAX=8
 #       (2) Ubuntu 20.04.1 LTS, (Dated: 05 Mar 2021)
-#           PERFORMANCE_CORE_FREQ_MULTIPLIER_MAX=8
 #   - Intel i3 1315U:
 #       (1) Ubuntu 22.04.5 LTS, (Dated: 18 Oct 2024)
-#           PERFORMANCE_CORE_FREQ_MULTIPLIER_MAX=9
-#           EFFICIENCY_CORE_FREQ_MULTIPLIER_MAX=12
 #
 # License: GNU GPL v3.0
 #
 # GitHub repo: https://github.com/melvinga/cpuPowerProfilesForLinux
 #
-# Date created: 29 Nov 2020
-# Last updated: 20 Oct 2024
+# Date created: 06 Dec 2020
+# Last updated: 206Oct 2024
 #
 ###############################################################################
 
 # # TESTED FOR i5-8265U (Base Frequency of CPU is 1.6 GHz)
 # GOVERNOR_VALUE=powersave
-# PERFORMANCE_CORE_FREQ_MULTIPLIER_MAX=8  # 100 = 10 GHz for 1st core (or 4.5 GHz if that's the max possible).
-# EFFICIENCY_CORE_FREQ_MULTIPLIER_MAX=8  # 8 = 0.8 GHz for 2nd core; Typical value.
-# MIN_FREQ_MULTIPLIER=1  # 1 = 0.1 GHz for subsequent cores (or 0.4 GHz if that's the lowest possible).
 # # GOVERNOR_VALUE=performance
-# # PERFORMANCE_CORE_FREQ_MULTIPLIER_MAX=16  # 100 = 10 GHz for 1st core (or 4.5 GHz if that's the max possible).
-# # EFFICIENCY_CORE_FREQ_MULTIPLIER_MAX=16  # 8 = 0.8 GHz for 2nd core; Typical value.
-# # MIN_FREQ_MULTIPLIER=1  # 1 = 0.1 GHz for subsequent cores (or 0.4 GHz if that's the lowest possible).
+# PERFORMANCE_CORE_FREQ_MULTIPLIER_MAX=24  # 100 = 10 GHz for 1st core (or 4.5 GHz if that's the max possible).
+# PERFORMANCE_CORE_FREQ_MULTIPLIER_MIN=8
+# EFFICIENCY_CORE_FREQ_MULTIPLIER_MAX=24  # 8 = 0.8 GHz for 2nd core; Typical value.
+# EFFICIENCY_CORE_FREQ_MULTIPLIER_MIN=8  # 1 = 0.1 GHz for subsequent cores (or 0.4 GHz if that's the lowest possible).
 
 # TESTED FOR i3-1315U (Base Frequency of CPU is 1.2 GHz)
 GOVERNOR_VALUE=powersave
-PERFORMANCE_CORE_FREQ_MULTIPLIER_MAX=12  # 100 = 10 GHz for 1st core (or 4.5 GHz if that's the max possible).
-EFFICIENCY_CORE_FREQ_MULTIPLIER_MAX=9  # 8 = 0.8 GHz for 2nd core; Typical value.
-MIN_FREQ_MULTIPLIER=6  # 1 = 0.1 GHz for subsequent cores (or 0.4 GHz if that's the lowest possible).
 # GOVERNOR_VALUE=performance
-# PERFORMANCE_CORE_FREQ_MULTIPLIER_MAX=36  # 100 = 10 GHz for 1st core (or 4.5 GHz if that's the max possible).
-# EFFICIENCY_CORE_FREQ_MULTIPLIER_MAX=18  # 8 = 0.8 GHz for 2nd core; Typical value.
-# MIN_FREQ_MULTIPLIER=12  # 1 = 0.1 GHz for subsequent cores (or 0.4 GHz if that's the lowest possible).
+PERFORMANCE_CORE_FREQ_MULTIPLIER_MAX=18  # 100 = 10 GHz for 1st core (or 4.5 GHz if that's the max possible).
+PERFORMANCE_CORE_FREQ_MULTIPLIER_MIN=6
+EFFICIENCY_CORE_FREQ_MULTIPLIER_MAX=18  # 8 = 0.8 GHz for 2nd core; Typical value.
+EFFICIENCY_CORE_FREQ_MULTIPLIER_MIN=6  # 1 = 0.1 GHz for subsequent cores (or 0.4 GHz if that's the lowest possible).
 
 PERFORMANCE_CORE_FREQ_MAX=$(( $PERFORMANCE_CORE_FREQ_MULTIPLIER_MAX * 100000 ))  # 100 * 100 MHz = 10 GHz
+PERFORMANCE_CORE_FREQ_MIN=$(( $PERFORMANCE_CORE_FREQ_MULTIPLIER_MIN * 100000 ))  #   1 * 100 MHz = 0.1 GHz
 EFFICIENCY_CORE_FREQ_MAX=$(( $EFFICIENCY_CORE_FREQ_MULTIPLIER_MAX * 100000 ))  #   6 * 100 MHz = 0.6 GHz
-MIN_FREQ=$(( $MIN_FREQ_MULTIPLIER * 100000 ))  #   1 * 100 MHz = 0.1 GHz
+EFFICIENCY_CORE_FREQ_MIN=$(( $EFFICIENCY_CORE_FREQ_MULTIPLIER_MIN * 100000 ))  #   6 * 100 MHz = 0.6 GHz
 
 FILE=/usr/bin/cpufreq-set
 if ! [ -f "$FILE" ]; then
@@ -93,10 +76,10 @@ if [ -f "$FILE" ]; then
   echo ""
 
   # Performance cores in Intel
-  for ((i=0;i<4;++i)); do sudo cpufreq-set -c $i --min $MIN_FREQ --max $PERFORMANCE_CORE_FREQ_MAX; done
+  for ((i=0;i<4;++i)); do sudo cpufreq-set -c $i --min $PERFORMANCE_CORE_FREQ_MIN --max $PERFORMANCE_CORE_FREQ_MAX; done
 
   # Efficiency cores in Intel
-  for ((i=4;i<$(nproc);++i)); do sudo cpufreq-set -c $i --min $MIN_FREQ --max $EFFICIENCY_CORE_FREQ_MAX; done
+  for ((i=4;i<$(nproc);++i)); do sudo cpufreq-set -c $i --min $EFFICIENCY_CORE_FREQ_MIN --max $EFFICIENCY_CORE_FREQ_MAX; done
 
   echo "Min freq is set to:"
   cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_min_freq
